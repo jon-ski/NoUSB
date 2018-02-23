@@ -1,4 +1,4 @@
-![logo](images/logo.png)
+![logo](images/logo.png)  
 NoUSB allows you to host a directory for another device on the network to download with a single binary.
 ## Why
 - Don't have internet, but do have a local area network.
