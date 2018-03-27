@@ -34,7 +34,6 @@ func main() {
 	}
 
 	// Serve
-	//
 	http.Handle("/download/", http.StripPrefix("/download/", http.FileServer(http.Dir("./"))))
 	// When just using /downloadself/ without the binary's name in the url
 	// the resulting download was nameless. So I included a dynamic handle
@@ -46,8 +45,12 @@ func main() {
 		http.ServeFile(w, r, selfExecutable)
 	})
 	http.HandleFunc("/api/files/", handleAPIFiles)
-	http.HandleFunc("/api/ip", handleAPIIP)
-	http.HandleFunc("/", handleIndex)
+	http.HandleFunc("/api/ip/", handleAPIIP)
+	http.HandleFunc("/api/external/files/", handleAPIExternalFiles)
+	http.HandleFunc("/ui/", handleIndex)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/ui/", http.StatusMovedPermanently)
+	})
 
 	host := ":" + *aPort
 	fmt.Println("Hosting on port:", *aPort)

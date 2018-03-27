@@ -46,18 +46,24 @@ func download(f string, url string) (err error) {
 	return nil
 }
 
-func downloadAll(a string) error {
-	// Get/Parse file list
-	resp, err := http.Get("http://" + a + "/api/files/")
+func getRequest(url string) ([]byte, error) {
+	// Request
+	resp, err := http.Get(url)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
+	return body, nil
+}
+
+// 3/27/2018 may have broken this. need to test.
+func downloadAll(url string) error {
+	body, err := getRequest("/api/external/files/?url=" + url)
 
 	var files []string
 	err = json.Unmarshal(body, &files)
@@ -68,7 +74,7 @@ func downloadAll(a string) error {
 	// Download/Create the files
 	for _, file := range files {
 		fmt.Println(file)
-		err = download(file, "http://"+a+"/download/"+file)
+		err = download(file, httpsStrip(url)+"/download/"+file)
 		if err != nil {
 			return err
 		}
