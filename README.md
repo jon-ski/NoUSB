@@ -18,6 +18,3 @@ Now enter the IP:Port on the other device's browser to load up the interface.
 // nousb -d -a=ServerIP:Port
 nousb -d -a=192.168.1.50:8080
 ~~~
-## Todo
-[ ] Stop browser from caching download pages
-[ ] Show IP address or a list of IP addresses the client should try in their browser
