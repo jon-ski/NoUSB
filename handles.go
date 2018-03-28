@@ -6,6 +6,8 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
+	"strings"
 )
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
@@ -74,4 +76,15 @@ func handleAPIExternalDownloadAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprintf(w, "Success!")
+}
+
+func handleAPIParentFolder(w http.ResponseWriter, r *http.Request) {
+	d, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	d = strings.Replace(d, "/", "\\", -1)
+	ds := strings.Split(d, "\\")
+	d = ds[len(ds)-1] + "\\"
+	fmt.Fprintf(w, d)
 }

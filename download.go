@@ -61,17 +61,27 @@ func downloadAll(url string, basePath string) error {
 		}
 	}
 
-	b, err := getRequest(httpsStrip(url) + "/api/files/")
-
+	// GET file list
 	var files []string
+	b, err := getRequest(httpsStrip(url) + "/api/files/")
+	if err != nil {
+		return err
+	}
 	err = json.Unmarshal(b, &files)
 	if err != nil {
 		return err
 	}
 
+	// GET parent url of server
+	b, err = getRequest(httpsStrip(url) + "/api/parentfolder/")
+	if err != nil {
+		return err
+	}
+	parentFolder := string(b)
+
 	// check if file exists so you don't overwrite something stupidly..
 	for i := range files {
-		files[i] = basePath + files[i]
+		files[i] = basePath + parentFolder + files[i]
 		if _, err := os.Stat(files[i]); err == nil {
 			return fmt.Errorf("NoUSB does not overwrite files...\n%s", files[i])
 		}
