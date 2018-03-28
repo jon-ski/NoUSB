@@ -55,3 +55,23 @@ func handleAPIExternalFiles(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, string(b))
 }
+
+func handleAPIExternalDownloadAll(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		fmt.Fprint(w, err)
+		return
+	}
+	url := r.FormValue("url")
+	basePath := r.FormValue("basePath")
+	if url == "" {
+		fmt.Fprintf(w, "Could not retrieve url from form")
+		return
+	}
+	err = downloadAll(url, basePath)
+	if err != nil {
+		fmt.Fprint(w, err)
+		return
+	}
+	fmt.Fprintf(w, "Success!")
+}

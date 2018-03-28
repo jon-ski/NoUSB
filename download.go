@@ -8,11 +8,15 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func download(f string, url string) (err error) {
+	fmt.Println(f)
+
 	// Create directory if needed
 	dir, _ := filepath.Split(f)
+
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		os.MkdirAll(dir, os.ModePerm)
 	}
@@ -46,6 +50,44 @@ func download(f string, url string) (err error) {
 	return nil
 }
 
+// 3/27/2018 may have broken this. need to test.
+func downloadAll(url string, basePath string) error {
+	// parse/modify/do stuff to basePath to make it usable
+	if basePath != "" {
+		basePath = strings.Replace(basePath, "/", "\\", -1)
+		// basePath = strings.TrimSuffix(basePath, "\\")
+		if !strings.HasSuffix(basePath, "\\") {
+			basePath = basePath + "\\"
+		}
+	}
+
+	b, err := getRequest(httpsStrip(url) + "/api/files/")
+
+	var files []string
+	err = json.Unmarshal(b, &files)
+	if err != nil {
+		return err
+	}
+
+	// check if file exists so you don't overwrite something stupidly..
+	for i := range files {
+		files[i] = basePath + files[i]
+		if _, err := os.Stat(files[i]); err == nil {
+			return fmt.Errorf("NoUSB does not overwrite files...\n%s", files[i])
+		}
+	}
+
+	// Download/Create the files
+	for _, file := range files {
+		err = download(file, httpsStrip(url)+"/download/"+file)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func getRequest(url string) ([]byte, error) {
 	// Request
 	resp, err := http.Get(url)
@@ -59,26 +101,4 @@ func getRequest(url string) ([]byte, error) {
 		return nil, err
 	}
 	return body, nil
-}
-
-// 3/27/2018 may have broken this. need to test.
-func downloadAll(url string) error {
-	body, err := getRequest("/api/external/files/?url=" + url)
-
-	var files []string
-	err = json.Unmarshal(body, &files)
-	if err != nil {
-		return err
-	}
-
-	// Download/Create the files
-	for _, file := range files {
-		fmt.Println(file)
-		err = download(file, httpsStrip(url)+"/download/"+file)
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
 }

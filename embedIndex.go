@@ -47,8 +47,8 @@ const bundleIndex = `<!doctype html>
     <input type="url" id="externalServerUrl" placeholder="external NoUSB server address">
     <button onclick="getExternalFiles()">Find External</button>
     <br>
-    <input type="text" id="downloadAllFolder" placeholder="c:\directory\to\download\to">
-    <button>Download All</button>
+    <input type="text" id="basePath" placeholder="c:\directory\to\download\to">
+    <button onclick="downloadAll()">Download All</button>
     <ul id="externalFileList">
     </ul>
 
@@ -93,7 +93,6 @@ const bundleIndex = `<!doctype html>
   </style>
 
   <script>
-  
   function getExternalFiles() {
     var xmlhttp = new XMLHttpRequest();
     var externalServerUrl = document.getElementById("externalServerUrl").value;
@@ -113,13 +112,24 @@ const bundleIndex = `<!doctype html>
         }
       }
     };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+  }
 
+  function downloadAll() {
+    var xmlhttp = new XMLHttpRequest();
+    var externalServerUrl = document.getElementById("externalServerUrl").value;
+    var basePath = document.getElementById("basePath").value;
+    var url = "/api/external/downloadall/?url=" + externalServerUrl + "&basePath=" + basePath;
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        alert(this.responseText);
+      }
+    };
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
   }
 
   </script>  
-
 </body>
-
 </html>`

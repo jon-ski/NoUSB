@@ -29,7 +29,7 @@ func main() {
 			fmt.Println("Must assign an address")
 			return
 		}
-		downloadAll(*aAddress)
+		downloadAll(*aAddress, "")
 		return
 	}
 
@@ -47,6 +47,7 @@ func main() {
 	http.HandleFunc("/api/files/", handleAPIFiles)
 	http.HandleFunc("/api/ip/", handleAPIIP)
 	http.HandleFunc("/api/external/files/", handleAPIExternalFiles)
+	http.HandleFunc("/api/external/downloadall/", handleAPIExternalDownloadAll)
 	http.HandleFunc("/ui/", handleIndex)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/ui/", http.StatusMovedPermanently)
