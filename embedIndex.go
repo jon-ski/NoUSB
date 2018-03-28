@@ -59,6 +59,7 @@ const bundleIndex = `<!doctype html>
       margin: 0.25rem;
     } */
     body {
+      font-family: Arial, Helvetica, sans-serif;
       color: rgb(30,30,30);
       max-width: 500px;
       margin: 0 auto;
