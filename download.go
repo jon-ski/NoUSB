@@ -8,11 +8,15 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func download(f string, url string) (err error) {
+	fmt.Println(f)
+
 	// Create directory if needed
 	dir, _ := filepath.Split(f)
+
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		os.MkdirAll(dir, os.ModePerm)
 	}
@@ -46,33 +50,65 @@ func download(f string, url string) (err error) {
 	return nil
 }
 
-func downloadAll(a string) error {
-	// Get/Parse file list
-	resp, err := http.Get("http://" + a + "/api/files/")
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return err
+// 3/27/2018 may have broken this. need to test.
+func downloadAll(url string, basePath string) error {
+	// parse/modify/do stuff to basePath to make it usable
+	if basePath != "" {
+		basePath = strings.Replace(basePath, "/", "\\", -1)
+		// basePath = strings.TrimSuffix(basePath, "\\")
+		if !strings.HasSuffix(basePath, "\\") {
+			basePath = basePath + "\\"
+		}
 	}
 
+	// GET file list
 	var files []string
-	err = json.Unmarshal(body, &files)
+	b, err := getRequest(httpsStrip(url) + "/api/files/")
 	if err != nil {
 		return err
+	}
+	err = json.Unmarshal(b, &files)
+	if err != nil {
+		return err
+	}
+
+	// GET parent url of server
+	b, err = getRequest(httpsStrip(url) + "/api/parentfolder/")
+	if err != nil {
+		return err
+	}
+	parentFolder := string(b)
+
+	// check if file exists so you don't overwrite something stupidly..
+	for i := range files {
+		files[i] = basePath + parentFolder + files[i]
+		if _, err := os.Stat(files[i]); err == nil {
+			return fmt.Errorf("NoUSB does not overwrite files...\n%s", files[i])
+		}
 	}
 
 	// Download/Create the files
 	for _, file := range files {
-		fmt.Println(file)
-		err = download(file, "http://"+a+"/download/"+file)
+		err = download(file, httpsStrip(url)+"/download/"+file)
 		if err != nil {
 			return err
 		}
 	}
 
 	return nil
+}
+
+func getRequest(url string) ([]byte, error) {
+	// Request
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
 }
