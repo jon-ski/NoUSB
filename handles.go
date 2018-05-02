@@ -11,7 +11,7 @@ import (
 )
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, bundleIndex)
+	fmt.Fprint(w, "broken")
 }
 
 func handleAPIFiles(w http.ResponseWriter, r *http.Request) {

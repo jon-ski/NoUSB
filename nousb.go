@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+
+	"github.com/gobuffalo/packr"
 )
 
 func main() {
@@ -22,6 +24,9 @@ func main() {
 	aDownload := flag.Bool("d", false, "Downloads all files from a hostlan server")
 	aAddress := flag.String("a", "", "IP Address of the server to download from")
 	flag.Parse()
+
+	// Pack static in binary
+	box := packr.NewBox("./assets")
 
 	// Download
 	if *aDownload {
@@ -49,7 +54,7 @@ func main() {
 	http.HandleFunc("/api/external/files/", handleAPIExternalFiles)
 	http.HandleFunc("/api/external/downloadall/", handleAPIExternalDownloadAll)
 	http.HandleFunc("/api/parentfolder/", handleAPIParentFolder)
-	http.HandleFunc("/ui/", handleIndex)
+	http.Handle("/ui/", http.StripPrefix("/ui/", http.FileServer(box)))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/ui/", http.StatusMovedPermanently)
 	})
