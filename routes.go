@@ -91,17 +91,10 @@ func (s *server) handleZipDirectory() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		zipFileName := getParentFolder() + ".zip"
 
-		// files, err := fileWalk()
-		// if err != nil {
-		// 	fmt.Fprintf(w, "%\n", err)
-		// 	return
-		// }
-
-		fmt.Printf("Creating Archive... ", zipFileName)
+		fmt.Print("Creating Archive... ")
 
 		w.Header().Set("Content-Disposition", "attachment; filename=\""+zipFileName+"\"")
 
-		// do stuff
 		zipWriter := zip.NewWriter(w)
 		defer zipWriter.Close()
 
@@ -115,6 +108,7 @@ func (s *server) handleZipDirectory() http.HandlerFunc {
 		if info.IsDir() {
 			baseDir = filepath.Base("./")
 		}
+
 		filepath.Walk("./", func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
@@ -159,6 +153,6 @@ func (s *server) handleZipDirectory() http.HandlerFunc {
 			return
 		}
 
-		fmt.Printf("Done.\n", zipFileName)
+		fmt.Print("Done.\n")
 	}
 }
