@@ -1,8 +1,10 @@
 package main
 
 import (
+	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func fileWalk() ([]string, error) {
@@ -19,4 +21,15 @@ func fileWalk() ([]string, error) {
 	})
 
 	return fs, err
+}
+
+func getParentFolder() string {
+	d, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	d = strings.Replace(d, "/", "\\", -1)
+	ds := strings.Split(d, "\\")
+	d = ds[len(ds)-1] + "\\"
+	return d
 }
