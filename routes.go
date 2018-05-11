@@ -100,7 +100,7 @@ func (s *server) handleZipDirectory() http.HandlerFunc {
 
 		info, err := os.Stat("./")
 		if err != nil {
-			fmt.Fprintf(w, "%\n", err)
+			fmt.Fprintf(w, "%s\n", err)
 			return
 		}
 
@@ -149,7 +149,7 @@ func (s *server) handleZipDirectory() http.HandlerFunc {
 		})
 
 		if err != nil {
-			fmt.Fprintf(w, "%\n", err)
+			fmt.Fprintf(w, "%s\n", err)
 			return
 		}
 

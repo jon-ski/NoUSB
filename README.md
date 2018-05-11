@@ -3,7 +3,7 @@
 Serve a directory on your lan
 
 ![Github All Releases](https://img.shields.io/github/downloads/jonathan-isdna/nousb/total.svg?style=flat-square) ![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?style=flat-square&label=Stars) ![GitHub stars](https://img.shields.io/github/tag/jonathan-isdna/nousb.svg?style=flat-square)
-[![Travis Build](https://img.shields.io/travis/jonathan-isdna/nousb.svg)]()
+![Travis Build](https://img.shields.io/travis/jonathan-isdna/nousb.svg)
 
 ## Serve Directory
 
