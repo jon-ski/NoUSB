@@ -6,7 +6,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "packr build -o bin/windows/nousb.exe",
+            "command": "packr build",
             "problemMatcher": [
                 "$go"
             ],
