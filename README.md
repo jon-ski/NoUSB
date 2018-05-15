@@ -2,16 +2,17 @@
 
 Serve a directory on your lan
 
-![Github All Releases](https://img.shields.io/github/downloads/jonathan-isdna/nousb/total.svg?style=flat-square) ![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?style=flat-square&label=Stars) ![GitHub stars](https://img.shields.io/github/tag/jonathan-isdna/nousb.svg?style=flat-square)
-![Travis Build](https://img.shields.io/travis/jonathan-isdna/nousb.svg)
+![Github All Releases](https://img.shields.io/github/downloads/jonathan-isdna/nousb/total.svg) ![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?&label=Stars) ![GitHub stars](https://img.shields.io/github/tag/jonathan-isdna/nousb.svg) [![Build Status](https://travis-ci.org/Jonathan-isdna/NoUSB.svg?branch=master)](https://travis-ci.org/Jonathan-isdna/NoUSB) [![Go Report Card](https://goreportcard.com/badge/github.com/jonathan-isdna/nousb)](https://goreportcard.com/report/github.com/jonathan-isdna/nousb)
+
+## Notes
+
+Currently upload is non-functional
 
 ## Serve Directory
 
 ~~~shell
 cd folder/you/want/to/host/
 nousb
-// Custom port (default is 8080)
-nousb -p=80
 ~~~
 
 ## Serve Directory With Custom Port

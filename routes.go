@@ -79,7 +79,8 @@ func (s *server) handleAPIFiles() http.HandlerFunc {
 
 func (s *server) handleAPIGetParentFolder() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		b, err := json.MarshalIndent(getParentFolder(), "", "  ")
+		parent, err := getParentFolder()
+		b, err := json.MarshalIndent(parent, "", "  ")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -89,7 +90,8 @@ func (s *server) handleAPIGetParentFolder() http.HandlerFunc {
 
 func (s *server) handleZipDirectory() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		zipFileName := getParentFolder() + ".zip"
+		parent, err := getParentFolder()
+		zipFileName := parent + ".zip"
 
 		fmt.Print("Creating Archive... ")
 
