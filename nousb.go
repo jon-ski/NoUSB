@@ -1,3 +1,10 @@
+/*
+NoUSB
+This is a simple LAN file-share tool
+
+
+Compile with packr
+*/
 package main
 
 import (

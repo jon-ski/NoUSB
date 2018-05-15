@@ -2,7 +2,7 @@
 
 Serve a directory on your lan
 
-![Github All Releases](https://img.shields.io/github/downloads/jonathan-isdna/nousb/total.svg) ![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?&label=Stars) ![GitHub stars](https://img.shields.io/github/tag/jonathan-isdna/nousb.svg) [![Build Status](https://travis-ci.org/Jonathan-isdna/NoUSB.svg?branch=master)](https://travis-ci.org/Jonathan-isdna/NoUSB) [![Go Report Card](https://goreportcard.com/badge/github.com/jonathan-isdna/nousb)](https://goreportcard.com/report/github.com/jonathan-isdna/nousb)
+![Github All Releases](https://img.shields.io/github/downloads/jonathan-isdna/nousb/total.svg) ![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?&label=Stars) ![Tag](https://img.shields.io/github/tag/jonathan-isdna/nousb.svg) [![Build Status](https://travis-ci.org/Jonathan-isdna/NoUSB.svg?branch=master)](https://travis-ci.org/Jonathan-isdna/NoUSB) [![Go Report Card](https://goreportcard.com/badge/github.com/jonathan-isdna/nousb)](https://goreportcard.com/report/github.com/jonathan-isdna/nousb)
 
 ## Notes
 
